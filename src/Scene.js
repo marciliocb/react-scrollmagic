@@ -35,6 +35,7 @@ export type SceneProps = {
 
 export type SceneBaseProps = SceneProps & {
   controller: any,
+  onEvent: any,
 }
 
 export type SceneBaseState = {
@@ -44,8 +45,8 @@ export type SceneBaseState = {
 
 const refOrInnerRef = (child: any) => {
   if (
-    child.type && 
-    child.type.$$typeof && 
+    child.type &&
+    child.type.$$typeof &&
     child.type.$$typeof.toString() === 'Symbol(react.forward_ref)')
   {
     return 'ref';
@@ -61,8 +62,8 @@ const refOrInnerRef = (child: any) => {
 
 const isGSAP = (child) => {
   if (
-    React.Children.count(child) === 1 && 
-    child.type && 
+    React.Children.count(child) === 1 &&
+    child.type &&
     (child.type.displayName === 'Tween' || child.type.displayName === 'Timeline')
   ) {
     return true;
@@ -199,7 +200,7 @@ class SceneBase extends React.PureComponent<SceneBaseProps, SceneBaseState> {
   }
 
   initEventHandlers() {
-    let { children, progressEvents = true } = this.props;
+    let { children, onEvent, progressEvents = true } = this.props;
 
     if (typeof children !== 'function' && !isGSAP(callChildFunction(children, 0, 'init'))) {
       return;
@@ -208,6 +209,10 @@ class SceneBase extends React.PureComponent<SceneBaseProps, SceneBaseState> {
     this.scene.on('start end enter leave', (event) => {
       this.setState({
         event
+      },()=>{
+        if(typeof onEvent === 'function'){
+          onEvent(event);
+        }
       });
     });
 
@@ -226,7 +231,7 @@ class SceneBase extends React.PureComponent<SceneBaseProps, SceneBaseState> {
 
     const child = getChild(children, progress, event);
 
-    // TODO: Don't add ref to stateless or stateful components 
+    // TODO: Don't add ref to stateless or stateful components
 
     return React.cloneElement(child, { [refOrInnerRef(child)]: ref => this.ref = ref });
   }

@@ -42,6 +42,9 @@ declare module 'react-scrollmagic' {
     /* setPin */
     pin?: boolean | PinSettings,
 
+    /* event handling */
+    onEvent?: function,
+
   };
 
   export class Controller extends React.Component<ControllerProps, ControllerState> {}
