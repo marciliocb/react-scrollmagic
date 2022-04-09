@@ -31,11 +31,13 @@ export type SceneProps = {
   /* setPin */
   pin?: boolean | PinSettings,
 
+  /* Event Handling */
+  onEvent?: Function,
+
 }
 
 export type SceneBaseProps = SceneProps & {
   controller: any,
-  onEvent: any,
 }
 
 export type SceneBaseState = {
