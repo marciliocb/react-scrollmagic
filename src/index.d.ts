@@ -43,7 +43,7 @@ declare module 'react-scrollmagic' {
     pin?: boolean | PinSettings,
 
     /* Event Handling */
-    onEvent?: Function,
+    onEvent?: any | Function,
 
   };
 

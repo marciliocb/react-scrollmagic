@@ -37,6 +37,7 @@ const Parallax = () => (
         indicators={true}
         duration="200%"
         triggerHook="onEnter"
+        onEvent={(e)=>{console.log("scroll event",e)}}
       >
         <Timeline
           wrapper={<div className="parallax" />}

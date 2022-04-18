@@ -119,6 +119,7 @@ class SceneBase extends React.PureComponent<SceneBaseProps, SceneBaseState> {
       pinSettings,
       indicators,
       enabled,
+      onEvent,
       ...sceneParams
     } = this.props;
 
@@ -156,6 +157,7 @@ class SceneBase extends React.PureComponent<SceneBaseProps, SceneBaseState> {
       triggerHook,
       reverse,
       enabled,
+      onEvent,
     } = this.props;
 
     if (duration !== undefined && duration !== prevProps.duration) {
@@ -211,11 +213,11 @@ class SceneBase extends React.PureComponent<SceneBaseProps, SceneBaseState> {
     this.scene.on('start end enter leave', (event) => {
       this.setState({
         event
-      },()=>{
-        if(typeof onEvent === 'function'){
-          onEvent(event);
-        }
       });
+      console.log("on event",onEvent);
+      if(typeof onEvent === 'function'){
+        onEvent(event);
+      }
     });
 
     if(progressEvents){
